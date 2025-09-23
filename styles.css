@@ -1,0 +1,371 @@
+body {
+    background-image: url('wood.jpg');
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#game-header {
+    width: 840px;
+    background: linear-gradient(blue, black);
+    padding: 15px 20px;
+    margin: 20px 0 10px;
+    border-radius: 1;
+    text-align: center;
+}
+
+#game-header h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 36px;
+    color: white;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+#game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -40px;
+    width: 840px;
+    padding: 20px;
+}
+
+#controls {
+    margin-bottom: 20px;
+    align-self: flex-end;
+    padding-left: 200px;
+}
+
+#controls button {
+    margin-right: 10px;
+    margin-top: -300px;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background: orange;
+    color: white;
+    transition: transform 0.2s, background 0.3s;
+}
+
+#controls button:hover {
+    background: green;
+    transform: translateY(-2px);
+}
+
+#controls button:active {
+    transform: translateY(0);
+}
+
+#top-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#stock-waste {
+    display: flex;
+    margin-right: 200px;
+}
+
+#foundations {
+    display: flex;
+    justify-content: flex-start;
+    min-width: 460px;
+    margin-left: 120px;
+}
+
+#tableau {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 800px;
+}
+
+.pile {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100px;
+    height: 500px;
+}
+
+.card {
+    width: 100px;
+    height: 150px;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    border: 1px solid #2c3e50;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px; /* Larger for suit symbol */
+    font-weight: bold;
+    position: absolute;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s;
+    z-index: 10;
+}
+
+.card::before,
+.card::after {
+    position: absolute;
+    font-size: 12px; /* Smaller for rank and symbol in corners */
+    font-weight: bold;
+    pointer-events: none;
+    text-align: left;
+}
+
+.card::before {
+    top: 5px;
+    left: 5px;
+}
+
+.card::after {
+    bottom: 5px;
+    right: 5px;
+    transform: rotate(180deg);
+    text-align: right;
+}
+
+/* Define rank labels */
+.card[data-rank="1"] { --rank-label: "A"; }
+.card[data-rank="2"] { --rank-label: "2"; }
+.card[data-rank="3"] { --rank-label: "3"; }
+.card[data-rank="4"] { --rank-label: "4"; }
+.card[data-rank="5"] { --rank-label: "5"; }
+.card[data-rank="6"] { --rank-label: "6"; }
+.card[data-rank="7"] { --rank-label: "7"; }
+.card[data-rank="8"] { --rank-label: "8"; }
+.card[data-rank="9"] { --rank-label: "9"; }
+.card[data-rank="10"] { --rank-label: "10"; }
+.card[data-rank="11"] { --rank-label: "J"; }
+.card[data-rank="12"] { --rank-label: "Q"; }
+.card[data-rank="13"] { --rank-label: "K"; }
+
+/* Define suit symbols */
+.card[data-suit="hearts"] { --suit-symbol: "♥"; }
+.card[data-suit="diamonds"] { --suit-symbol: "♦"; }
+.card[data-suit="clubs"] { --suit-symbol: "♣"; }
+.card[data-suit="spades"] { --suit-symbol: "♠"; }
+
+/* General rule for card content */
+.card::before,
+.card::after {
+    content: var(--rank-label, "") "\a" var(--suit-symbol, "");
+    white-space: pre;
+    color: inherit;
+    position: absolute;
+    font-size: clamp(10px, 1.5vw, 12px);
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.card::before {
+    top: 5px;
+    left: 5px;
+    text-align: left;
+}
+
+.card::after {
+    bottom: 5px;
+    right: 5px;
+    transform: rotate(180deg);
+    text-align: right;
+}
+
+.card.hidden::before,
+.card.hidden::after {
+    content: "";
+}
+
+.foundation, .stock, .waste {
+    width: 100px;
+    height: 150px;
+    border: 2px solid white;
+    margin: 0 10px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.foundation {
+    padding-left: 0;
+}
+
+.foundation.valid-drop, .tableau.valid-drop {
+    border: 2px solid #27ae60;
+    background: rgba(39, 174, 96, 0.2);
+}
+
+.stock {
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.2);
+    transition: background 0.3s;
+}
+
+.stock:not(:empty)::before {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 150px;
+    background: linear-gradient(to bottom, #34495e, #2c3e50);
+    border-radius: 10px;
+}
+
+.stock:hover:not(:empty)::before {
+    background: linear-gradient(to bottom, #4a6278, #34495e);
+}
+
+.waste {
+    position: relative;
+}
+
+.tableau {
+    margin: 0 0px;
+    width: 100px;
+    height: 500px;
+    border: 2px blue;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card.red {
+    color: red;
+}
+
+.card.black {
+    color: black;
+}
+
+.card.hidden {
+    background-image: url('soli.jpg');
+    background-size: cover;
+    background-position: center;
+    color: transparent;
+    border: 1px solid #2c3e50;
+    background-color: transparent;
+}
+
+.tableau .card {
+    margin-top: 30px;
+}
+
+.tableau .card:first-child {
+    margin-top: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    #game-header {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    #game-header h1 {
+        font-size: min(24px, 6vw);
+    }
+
+    #game-container {
+        width: 100%;
+        padding: 10px;
+        margin-top: 0;
+        box-sizing: border-box;
+    }
+
+    #controls {
+        align-self: center;
+        padding-left: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+    }
+
+    #controls button {
+        margin: 0;
+        padding: min(8px, 2vw) min(12px, 3vw);
+        font-size: min(14px, 3.5vw);
+    }
+
+    #top-row {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    #stock-waste {
+        margin-right: 0;
+        justify-content: center;
+    }
+
+    #foundations {
+        margin-left: 0;
+        min-width: auto;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    #tableau {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .pile {
+        width: min(80px, 12vw);
+        height: min(400px, 60vw);
+    }
+
+    .card {
+        width: min(80px, 12vw);
+        height: min(120px, 18vw);
+        font-size: min(24px, 4vw);
+    }
+
+    .card::before,
+    .card::after {
+        font-size: min(10px, 1.5vw);
+    }
+
+    .foundation, .stock, .waste {
+        width: min(80px, 12vw);
+        height: min(120px, 18vw);
+        margin: 0 5px;
+    }
+
+    .tableau {
+        width: min(80px, 12vw);
+        height: min(400px, 60vw);
+        margin: 0 5px;
+        border: 2px dashed blue; /* Fixed syntax */
+    }
+
+    .tableau .card {
+        margin-top: min(20px, 4vw);
+    }
+
+    .stock:not(:empty)::before {
+        width: min(80px, 12vw);
+        height: min(120px, 18vw);
+    }
+}

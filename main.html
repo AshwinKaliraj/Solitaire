@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solitaire</title>
+    <link rel="icon" type="image/jpg" href="icon.png">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <h1>Solitaire</h1>
+        <div id="controls">
+            <button id="new-game">New Game</button>
+            <button id="undo">Undo</button>
+            <span id="move-count">Moves: 0</span>
+        </div>
+        <div id="move-log"></div>
+        <div id="top-row">
+            <div id="stock-waste">
+                <div id="stock" class="stock pile"></div>
+                <div id="waste" class="waste pile"></div>
+            </div>
+            <div id="foundations">
+                <div id="foundation-0" class="pile foundation"></div>
+                <div id="foundation-1" class="pile foundation"></div>
+                <div id="foundation-2" class="pile foundation"></div>
+                <div id="foundation-3" class="pile foundation"></div>
+            </div>
+        </div>
+        <div id="tableau">
+            <div id="tableau-0" class="tableau pile"></div>
+            <div id="tableau-1" class="tableau pile"></div>
+            <div id="tableau-2" class="tableau pile"></div>
+            <div id="tableau-3" class="tableau pile"></div>
+            <div id="tableau-4" class="tableau pile"></div>
+            <div id="tableau-5" class="tableau pile"></div>
+            <div id="tableau-6" class="tableau pile"></div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
